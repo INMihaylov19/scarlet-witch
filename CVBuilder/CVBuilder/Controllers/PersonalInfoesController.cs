@@ -52,7 +52,7 @@ namespace CVBuilder.Controllers
         // PUT: api/PersonalInfoes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPersonalInfo(int id, PersonalInfo personalInfo)
+        public async Task<IActionResult> PutPersonalInfo(Guid id, PersonalInfo personalInfo)
         {
             if (id != personalInfo.Id)
             {
@@ -129,7 +129,7 @@ namespace CVBuilder.Controllers
             return NoContent();
         }
 
-        private bool PersonalInfoExists(int id)
+        private bool PersonalInfoExists(Guid id)
         {
             return (_context.PersonalInfos?.Any(e => e.Id == id)).GetValueOrDefault();
         }

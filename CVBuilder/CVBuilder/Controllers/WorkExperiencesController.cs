@@ -52,7 +52,7 @@ namespace CVBuilder.Controllers
         // PUT: api/WorkExperiences/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkExperience(int id, WorkExperience workExperience)
+        public async Task<IActionResult> PutWorkExperience(Guid id, WorkExperience workExperience)
         {
             if (id != workExperience.Id)
             {
@@ -129,7 +129,7 @@ namespace CVBuilder.Controllers
             return NoContent();
         }
 
-        private bool WorkExperienceExists(int id)
+        private bool WorkExperienceExists(Guid id)
         {
             return (_context.WorkExperiences?.Any(e => e.Id == id)).GetValueOrDefault();
         }

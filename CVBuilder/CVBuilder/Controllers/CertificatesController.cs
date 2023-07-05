@@ -52,7 +52,7 @@ namespace CVBuilder.Controllers
         // PUT: api/Certificates/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCertificate(int id, Certificate certificate)
+        public async Task<IActionResult> PutCertificate(Guid id, Certificate certificate)
         {
             if (id != certificate.Id)
             {
@@ -129,7 +129,7 @@ namespace CVBuilder.Controllers
             return NoContent();
         }
 
-        private bool CertificateExists(int id)
+        private bool CertificateExists(Guid id)
         {
             return (_context.Certificates?.Any(e => e.Id == id)).GetValueOrDefault();
         }

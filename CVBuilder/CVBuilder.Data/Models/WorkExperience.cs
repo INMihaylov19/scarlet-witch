@@ -5,7 +5,7 @@ namespace CVBuilder.Models;
 
 public partial class WorkExperience
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Company { get; set; } = null!;
 

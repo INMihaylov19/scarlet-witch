@@ -52,7 +52,7 @@ namespace CVBuilder.Controllers
         // PUT: api/Educations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEducation(int id, Education education)
+        public async Task<IActionResult> PutEducation(Guid id, Education education)
         {
             if (id != education.Id)
             {
@@ -129,7 +129,7 @@ namespace CVBuilder.Controllers
             return NoContent();
         }
 
-        private bool EducationExists(int id)
+        private bool EducationExists(Guid id)
         {
             return (_context.Educations?.Any(e => e.Id == id)).GetValueOrDefault();
         }

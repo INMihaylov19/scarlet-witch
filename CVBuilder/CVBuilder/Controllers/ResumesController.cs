@@ -52,7 +52,7 @@ namespace CVBuilder.Controllers
         // PUT: api/Resumes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutResume(int id, Resume resume)
+        public async Task<IActionResult> PutResume(Guid id, Resume resume)
         {
             if (id != resume.Id)
             {
@@ -129,7 +129,7 @@ namespace CVBuilder.Controllers
             return NoContent();
         }
 
-        private bool ResumeExists(int id)
+        private bool ResumeExists(Guid id)
         {
             return (_context.Resumes?.Any(e => e.Id == id)).GetValueOrDefault();
         }

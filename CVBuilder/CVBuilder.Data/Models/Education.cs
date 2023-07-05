@@ -5,7 +5,7 @@ namespace CVBuilder.Models;
 
 public partial class Education
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Institute { get; set; } = null!;
 

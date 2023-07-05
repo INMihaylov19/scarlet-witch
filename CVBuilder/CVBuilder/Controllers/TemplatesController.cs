@@ -52,7 +52,7 @@ namespace CVBuilder.Controllers
         // PUT: api/Templates/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTemplate(int id, Template template)
+        public async Task<IActionResult> PutTemplate(Guid id, Template template)
         {
             if (id != template.Id)
             {
@@ -129,7 +129,7 @@ namespace CVBuilder.Controllers
             return NoContent();
         }
 
-        private bool TemplateExists(int id)
+        private bool TemplateExists(Guid id)
         {
             return (_context.Templates?.Any(e => e.Id == id)).GetValueOrDefault();
         }
