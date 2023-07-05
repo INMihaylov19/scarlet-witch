@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CVBuilder.Data.Models
+namespace CVBuilder.Models;
+
+public partial class WorkExperience
 {
-    public class WorkExperience
-    {
-        public int Id { get; set; }
-        public string Company { get; set; }
-        public string Position { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; } // Nullable
-        public string Description { get; set; }
-        public int ResumeId { get; set; }
-    }
+    public int Id { get; set; }
+
+    public string Company { get; set; } = null!;
+
+    public string Position { get; set; } = null!;
+
+    public DateTime StartDate { get; set; }
+
+    public DateTime EndDate { get; set; }
+
+    public string Description { get; set; } = null!;
+
+    public int ResumeId { get; set; }
+
+    public virtual Resume Resume { get; set; } = null!;
 }

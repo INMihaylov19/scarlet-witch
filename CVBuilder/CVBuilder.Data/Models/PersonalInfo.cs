@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CVBuilder.Data.Models
+namespace CVBuilder.Models;
+
+public partial class PersonalInfo
 {
-    public class PersonalInfo
-    {
-        public int Id { get; set; }
-        public string Address { get; set; }
-        public string Phone { get;set; }
-        public int UserId { get; set; }
-    }
+    public int Id { get; set; }
+
+    public string Address { get; set; } = null!;
+
+    public string Phone { get; set; } = null!;
+
+    public int UserId { get; set; }
+
+    public virtual User User { get; set; } = null!;
 }

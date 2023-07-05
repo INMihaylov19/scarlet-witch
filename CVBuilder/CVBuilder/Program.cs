@@ -1,3 +1,6 @@
+using CVBuilder.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace CVBuilder
 {
     public class Program
@@ -9,6 +12,10 @@ namespace CVBuilder
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            builder.Services.AddDbContext<CvdatabaseContext>(options =>
+                           options.UseSqlServer(builder.Configuration.GetConnectionString("dbconn")));
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
