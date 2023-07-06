@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using CVBuilder.Models;
+using CVBuilder.Services.Contracts;
 
 namespace CVBuilder.Controllers
 {
@@ -13,125 +13,67 @@ namespace CVBuilder.Controllers
     [ApiController]
     public class ResumesController : ControllerBase
     {
-        private readonly CvdatabaseContext _context;
+        private readonly IResumeService _resumeService;
 
-        public ResumesController(CvdatabaseContext context)
+        public ResumesController(IResumeService resumeService)
         {
-            _context = context;
+            _resumeService = resumeService;
         }
 
         // GET: api/Resumes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Resume>>> GetResumes()
         {
-          if (_context.Resumes == null)
-          {
-              return NotFound();
-          }
-            return await _context.Resumes.ToListAsync();
+            var resumes = await _resumeService.GetResumesAsync();
+            if (resumes == null)
+            {
+                return NotFound();
+            }
+            return resumes;
         }
 
         // GET: api/Resumes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Resume>> GetResume(int id)
+        public async Task<ActionResult<Resume>> GetResume(Guid id)
         {
-          if (_context.Resumes == null)
-          {
-              return NotFound();
-          }
-            var resume = await _context.Resumes.FindAsync(id);
-
+            var resume = await _resumeService.GetResumeByIdAsync(id);
             if (resume == null)
             {
                 return NotFound();
             }
-
             return resume;
         }
 
         // PUT: api/Resumes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutResume(Guid id, Resume resume)
         {
-            if (id != resume.Id)
+            bool isUpdated = await _resumeService.UpdateResumeAsync(id, resume);
+            if (!isUpdated)
             {
                 return BadRequest();
             }
-
-            _context.Entry(resume).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ResumeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
             return NoContent();
         }
 
         // POST: api/Resumes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Resume>> PostResume(Resume resume)
         {
-          if (_context.Resumes == null)
-          {
-              return Problem("Entity set 'CvdatabaseContext.Resumes'  is null.");
-          }
-            _context.Resumes.Add(resume);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (ResumeExists(resume.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetResume", new { id = resume.Id }, resume);
+            var createdResume = await _resumeService.CreateResumeAsync(resume);
+            return CreatedAtAction(nameof(GetResume), new { id = createdResume.Id }, createdResume);
         }
 
         // DELETE: api/Resumes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteResume(int id)
+        public async Task<IActionResult> DeleteResume(Guid id)
         {
-            if (_context.Resumes == null)
+            bool isDeleted = await _resumeService.DeleteResumeAsync(id);
+            if (!isDeleted)
             {
                 return NotFound();
             }
-            var resume = await _context.Resumes.FindAsync(id);
-            if (resume == null)
-            {
-                return NotFound();
-            }
-
-            _context.Resumes.Remove(resume);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool ResumeExists(Guid id)
-        {
-            return (_context.Resumes?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

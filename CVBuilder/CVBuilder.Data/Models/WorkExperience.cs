@@ -17,7 +17,7 @@ public partial class WorkExperience
 
     public string Description { get; set; } = null!;
 
-    public int ResumeId { get; set; }
+    public Guid ResumeId { get; set; }
 
     public virtual Resume Resume { get; set; } = null!;
 }

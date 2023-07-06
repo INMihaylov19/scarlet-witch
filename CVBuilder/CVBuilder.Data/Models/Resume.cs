@@ -13,11 +13,13 @@ public partial class Resume
 
     public DateTime LastModified { get; set; }
 
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
 
     public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
 
     public virtual ICollection<Education> Educations { get; set; } = new List<Education>();
+
+    public virtual ICollection<Language> Languages { get; set; } = new List<Language>();
 
     public virtual User User { get; set; } = null!;
 

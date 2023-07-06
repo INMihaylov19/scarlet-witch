@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using CVBuilder.Models;
+using CVBuilder.Services.Contracts;
 
 namespace CVBuilder.Controllers
 {
@@ -13,39 +11,34 @@ namespace CVBuilder.Controllers
     [ApiController]
     public class EducationsController : ControllerBase
     {
-        private readonly CvdatabaseContext _context;
+        private readonly IEducationService _educationService;
 
-        public EducationsController(CvdatabaseContext context)
+        public EducationsController(IEducationService educationService)
         {
-            _context = context;
+            _educationService = educationService;
         }
 
         // GET: api/Educations
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Education>>> GetEducations()
         {
-          if (_context.Educations == null)
-          {
-              return NotFound();
-          }
-            return await _context.Educations.ToListAsync();
+            var educations = await _educationService.GetEducationsAsync();
+            if (educations == null)
+            {
+                return NotFound();
+            }
+            return educations;
         }
 
         // GET: api/Educations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Education>> GetEducation(int id)
+        public async Task<ActionResult<Education>> GetEducation(Guid id)
         {
-          if (_context.Educations == null)
-          {
-              return NotFound();
-          }
-            var education = await _context.Educations.FindAsync(id);
-
+            var education = await _educationService.GetEducationByIdAsync(id);
             if (education == null)
             {
                 return NotFound();
             }
-
             return education;
         }
 
@@ -54,29 +47,11 @@ namespace CVBuilder.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEducation(Guid id, Education education)
         {
-            if (id != education.Id)
+            bool isUpdated = await _educationService.UpdateEducationAsync(id, education);
+            if (!isUpdated)
             {
                 return BadRequest();
             }
-
-            _context.Entry(education).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EducationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
             return NoContent();
         }
 
@@ -85,53 +60,20 @@ namespace CVBuilder.Controllers
         [HttpPost]
         public async Task<ActionResult<Education>> PostEducation(Education education)
         {
-          if (_context.Educations == null)
-          {
-              return Problem("Entity set 'CvdatabaseContext.Educations'  is null.");
-          }
-            _context.Educations.Add(education);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (EducationExists(education.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetEducation", new { id = education.Id }, education);
+            var createdEducation = await _educationService.CreateEducationAsync(education);
+            return CreatedAtAction(nameof(GetEducation), new { id = createdEducation.Id }, createdEducation);
         }
 
         // DELETE: api/Educations/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEducation(int id)
+        public async Task<IActionResult> DeleteEducation(Guid id)
         {
-            if (_context.Educations == null)
+            bool isDeleted = await _educationService.DeleteEducationAsync(id);
+            if (!isDeleted)
             {
                 return NotFound();
             }
-            var education = await _context.Educations.FindAsync(id);
-            if (education == null)
-            {
-                return NotFound();
-            }
-
-            _context.Educations.Remove(education);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool EducationExists(Guid id)
-        {
-            return (_context.Educations?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
