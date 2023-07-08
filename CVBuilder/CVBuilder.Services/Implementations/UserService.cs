@@ -81,5 +81,10 @@ namespace CVBuilder.Services.Implementations
         {
             return _context.Users.Any(e => e.Id == id);
         }
+
+        public bool GetUserByUsernameAndPasswordAsync(string username, string password)
+        {
+            return _context.Users.Any(u => u.Username == username && u.Password == password);
+        }
     }
 }

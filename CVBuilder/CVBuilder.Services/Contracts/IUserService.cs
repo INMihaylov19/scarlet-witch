@@ -16,5 +16,6 @@ namespace CVBuilder.Services.Contracts
         public Task<User> CreateUserAsync(User user);
         public Task<bool> DeleteUserAsync(Guid id);
         public bool UserExists(Guid id);
+        public bool GetUserByUsernameAndPasswordAsync(string username, string password);
     }
 }
