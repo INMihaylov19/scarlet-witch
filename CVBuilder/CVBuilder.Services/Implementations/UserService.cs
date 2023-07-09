@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using CVBuilder.Models;
 using CVBuilder.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+
 
 namespace CVBuilder.Services.Implementations
 {
@@ -57,6 +60,8 @@ namespace CVBuilder.Services.Implementations
 
         public async Task<User> CreateUserAsync(User user)
         {
+            user.Id = Guid.NewGuid();
+            user.Password = EncryptWithSalt(user.Password, user.Salt);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
@@ -85,6 +90,28 @@ namespace CVBuilder.Services.Implementations
         public bool GetUserByUsernameAndPasswordAsync(string username, string password)
         {
             return _context.Users.Any(u => u.Username == username && u.Password == password);
+        }
+
+        public string EncryptWithSalt(string input, byte[] salt)
+        {
+            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+
+            byte[] saltedInputBytes = new byte[salt.Length + inputBytes.Length];
+            Buffer.BlockCopy(salt, 0, saltedInputBytes, 0, salt.Length);
+            Buffer.BlockCopy(inputBytes, 0, saltedInputBytes, salt.Length, inputBytes.Length);
+
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashBytes = sha256.ComputeHash(saltedInputBytes);
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    builder.Append(hashBytes[i].ToString("x2"));
+                }
+
+                return builder.ToString();
+            }
         }
     }
 }

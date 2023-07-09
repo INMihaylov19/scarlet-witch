@@ -17,5 +17,6 @@ namespace CVBuilder.Services.Contracts
         public Task<bool> DeleteUserAsync(Guid id);
         public bool UserExists(Guid id);
         public bool GetUserByUsernameAndPasswordAsync(string username, string password);
+        public string EncryptWithSalt(string input, byte[] salt);
     }
 }
