@@ -17,7 +17,8 @@ namespace CVBuilder.Controllers
         [HttpPost]
         public async Task<ActionResult> Login(string username, string password)
         {
-            bool userExists = _userService.GetUserByUsernameAndPasswordAsync(username, password);
+            string hashedPassword = _userService.EncryptWithSalt(password, new byte[128 / 8]);
+            bool userExists = _userService.GetUserByUsernameAndPasswordAsync(username, hashedPassword);
 
             if (!userExists)
             {
