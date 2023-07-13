@@ -28,8 +28,7 @@ namespace CVBuilder.Services.Implementations
                 Password = userService.EncryptWithSalt(password, new byte[128/8]),
                 Email = email,
                 FirstName = firstName,
-                LastName = lastName,
-                Salt = new byte[128 / 8]
+                LastName = lastName
             };
             // Add the user to the database
             _context.Users.Add(user);

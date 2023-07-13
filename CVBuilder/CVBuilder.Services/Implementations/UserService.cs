@@ -61,7 +61,7 @@ namespace CVBuilder.Services.Implementations
         public async Task<User> CreateUserAsync(User user)
         {
             user.Id = Guid.NewGuid();
-            user.Password = EncryptWithSalt(user.Password, user.Salt);
+            user.Password = EncryptWithSalt(user.Password, new byte[128/8]);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 

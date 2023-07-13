@@ -175,7 +175,6 @@ public partial class CvdatabaseContext : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(500)
                 .IsUnicode(false);
-            entity.Property(e => e.Salt).HasMaxLength(32);
             entity.Property(e => e.Username)
                 .HasMaxLength(100)
                 .IsUnicode(false);

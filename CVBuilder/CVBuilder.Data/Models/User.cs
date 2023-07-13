@@ -17,8 +17,6 @@ public partial class User
 
     public string LastName { get; set; } = null!;
 
-    public byte[]? Salt { get; set; }
-
     public virtual ICollection<PersonalInfo> PersonalInfos { get; set; } = new List<PersonalInfo>();
 
     public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
