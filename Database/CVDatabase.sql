@@ -12,8 +12,7 @@ Username varchar(100) NOT NULL UNIQUE,
 Email varchar(100) NOT NULL UNIQUE,
 Password varchar(500) NOT NULL,
 FirstName nvarchar(100) NOT NULL,
-LastName nvarchar(100) NOT NULL,
-Salt varbinary(32)
+LastName nvarchar(100) NOT NULL
 )
 CREATE TABLE Resumes(
 Id UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY NOT NULL,
