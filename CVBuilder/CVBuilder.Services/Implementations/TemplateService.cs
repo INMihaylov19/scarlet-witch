@@ -58,6 +58,7 @@ namespace CVBuilder.Services.Implementations
 
         public async Task<Template> CreateTemplateAsync(Template template)
         {
+            template.Id = new Guid();
             _context.Templates.Add(template);
             await _context.SaveChangesAsync();
 

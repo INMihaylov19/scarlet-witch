@@ -57,6 +57,7 @@ namespace CVBuilder.Services.Implementations
 
         public async Task<Resume> CreateResumeAsync(Resume resume)
         {
+            resume.Id = new Guid();
             _context.Resumes.Add(resume);
             await _context.SaveChangesAsync();
 

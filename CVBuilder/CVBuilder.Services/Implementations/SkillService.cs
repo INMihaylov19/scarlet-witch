@@ -57,6 +57,7 @@ namespace CVBuilder.Services.Implementations
 
         public async Task<Skill> CreateSkillAsync(Skill skill)
         {
+            skill.Id = new Guid();
             _context.Skills.Add(skill);
             await _context.SaveChangesAsync();
 

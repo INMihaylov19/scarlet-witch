@@ -57,6 +57,7 @@ namespace CVBuilder.Services.Implementations
 
         public async Task<WorkExperience> CreateWorkExperienceAsync(WorkExperience workExperience)
         {
+            workExperience.Id = new Guid();
             _context.WorkExperiences.Add(workExperience);
             await _context.SaveChangesAsync();
 
