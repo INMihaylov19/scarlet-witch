@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CVBuilder.Models;
 using CVBuilder.Services.Implementations;
 using CVBuilder.Services.Contracts;
+using CVBuilder.Data.DTO;
 
 namespace CVBuilder.Controllers
 {
@@ -48,8 +49,14 @@ namespace CVBuilder.Controllers
 
         // PUT: api/Skills/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSkill(Guid id, Skill skill)
+        public async Task<IActionResult> PutSkill(Guid id, SkillDTO skillTransfer)
         {
+            var skill = new Skill
+            {
+                Id = skillTransfer.Id,
+                Name = skillTransfer.Name
+            };
+
             bool isUpdated = await _skillService.UpdateSkillAsync(id, skill);
             if (!isUpdated)
             {
@@ -60,8 +67,12 @@ namespace CVBuilder.Controllers
 
         // POST: api/Skills
         [HttpPost]
-        public async Task<ActionResult<Skill>> PostSkill(Skill skill)
+        public async Task<ActionResult<Skill>> PostSkill(SkillDTO skillTransfer)
         {
+            var skill = new Skill
+            {
+                Name = skillTransfer.Name
+            };
             var createdSkill = await _skillService.CreateSkillAsync(skill);
             return CreatedAtAction(nameof(GetSkill), new { id = createdSkill.Id }, createdSkill);
         }

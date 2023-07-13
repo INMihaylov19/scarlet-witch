@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CVBuilder.Models;
 using CVBuilder.Services.Contracts;
 using CVBuilder.Services.Implementations;
+using CVBuilder.Data.DTO;
 
 namespace CVBuilder.Controllers
 {
@@ -46,8 +47,18 @@ namespace CVBuilder.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCertificate(Guid id, Certificate certificate)
+        public async Task<IActionResult> PutCertificate(Guid id, CertificateDTO certificateTransfer)
         {
+            Certificate certificate = new Certificate
+            {
+                Id = certificateTransfer.Id,
+                Name = certificateTransfer.Name,
+                IssueDate = certificateTransfer.IssueDate,
+                ExpirationDate = certificateTransfer.ExpirationDate,
+                Organization = certificateTransfer.Organization,
+
+            };
+
             bool isUpdated = await _certificateService.UpdateCertificateAsync(id, certificate);
             if (!isUpdated)
             {
@@ -57,8 +68,17 @@ namespace CVBuilder.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Certificate>> PostCertificate(Certificate certificate)
+        public async Task<ActionResult<Certificate>> PostCertificate(CertificateDTO certificateTransfer)
         {
+            Certificate certificate = new Certificate
+            {
+                Name = certificateTransfer.Name,
+                IssueDate = certificateTransfer.IssueDate,
+                ExpirationDate = certificateTransfer.ExpirationDate,
+                Organization = certificateTransfer.Organization,
+
+            };
+
             var createdCertificate = await _certificateService.CreateCertificateAsync(certificate);
             return CreatedAtAction(nameof(GetCertificate), new { id = createdCertificate.Id }, createdCertificate);
         }

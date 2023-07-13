@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CVBuilder.Models;
 using CVBuilder.Services.Contracts;
+using CVBuilder.Data.DTO;
 
 namespace CVBuilder.Controllers
 {
@@ -45,8 +46,15 @@ namespace CVBuilder.Controllers
         // PUT: api/Languages/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLanguage(Guid id, Language language)
+        public async Task<IActionResult> PutLanguage(Guid id, LanguageDTO languageTransfer)
         {
+            Language language = new Language
+            {
+                Id = languageTransfer.Id,
+                Name = languageTransfer.Name,
+                Proficiency = languageTransfer.Proficiency
+            };
+
             bool isUpdated = await _languageService.UpdateLanguageAsync(id, language);
             if (!isUpdated)
             {
@@ -58,8 +66,13 @@ namespace CVBuilder.Controllers
         // POST: api/Languages
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Language>> PostLanguage(Language language)
+        public async Task<ActionResult<Language>> PostLanguage(LanguageDTO languageTransfer)
         {
+            Language language = new Language
+            {
+                Name = languageTransfer.Name,
+                Proficiency = languageTransfer.Proficiency
+            };
             var createdLanguage = await _languageService.CreateLanguageAsync(language);
             return CreatedAtAction(nameof(GetLanguage), new { id = createdLanguage.Id }, createdLanguage);
         }

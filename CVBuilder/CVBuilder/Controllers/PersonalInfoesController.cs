@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using CVBuilder.Models;
 using CVBuilder.Services.Contracts;
 using CVBuilder.Services.Implementations;
+using CVBuilder.Data.DTO;
 
 namespace CVBuilder.Controllers
 {
@@ -46,8 +47,15 @@ namespace CVBuilder.Controllers
         // PUT: api/PersonalInfoes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPersonalInfo(Guid id, PersonalInfo personalInfo)
+        public async Task<IActionResult> PutPersonalInfo(Guid id, PersonalInfoDTO personalInfoTrasfer)
         {
+            PersonalInfo personalInfo = new PersonalInfo
+            {
+                Id = personalInfoTrasfer.Id,
+                Address = personalInfoTrasfer.Address,
+                Phone = personalInfoTrasfer.Phone,
+            };
+
             bool isUpdated = await _personalInfoService.UpdatePersonalInfoAsync(id, personalInfo);
             if (!isUpdated)
             {
@@ -59,8 +67,13 @@ namespace CVBuilder.Controllers
         // POST: api/PersonalInfoes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<PersonalInfo>> PostPersonalInfo(PersonalInfo personalInfo)
+        public async Task<ActionResult<PersonalInfo>> PostPersonalInfo(PersonalInfoDTO personalInfoTransfer)
         {
+            PersonalInfo personalInfo = new PersonalInfo
+            {
+                Address = personalInfoTransfer.Address,
+                Phone = personalInfoTransfer.Phone,
+            };
             var createdPersonalInfo = await _personalInfoService.CreatePersonalInfoAsync(personalInfo);
             return CreatedAtAction(nameof(GetPersonalInfo), new { id = createdPersonalInfo.Id }, createdPersonalInfo);
         }

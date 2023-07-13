@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CVBuilder.Models;
 using CVBuilder.Services.Contracts;
+using CVBuilder.Data.DTO;
 
 namespace CVBuilder.Controllers
 {
@@ -45,8 +46,18 @@ namespace CVBuilder.Controllers
         // PUT: api/Educations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEducation(Guid id, Education education)
+        public async Task<IActionResult> PutEducation(Guid id, EducationDTO educationTransfer)
         {
+            Education education = new Education
+            {
+                Id = educationTransfer.Id,
+                Institute = educationTransfer.Institute,
+                Degree = educationTransfer.Degree,
+                FieldOfStudy = educationTransfer.FieldOfStudy,
+                StartDate = educationTransfer.StartDate,
+                EndDate = educationTransfer.EndDate
+            };
+
             bool isUpdated = await _educationService.UpdateEducationAsync(id, education);
             if (!isUpdated)
             {
@@ -58,8 +69,17 @@ namespace CVBuilder.Controllers
         // POST: api/Educations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Education>> PostEducation(Education education)
+        public async Task<ActionResult<Education>> PostEducation(EducationDTO educationTransfer)
         {
+            Education education = new Education
+            {
+                Institute = educationTransfer.Institute,
+                Degree = educationTransfer.Degree,
+                FieldOfStudy = educationTransfer.FieldOfStudy,
+                StartDate = educationTransfer.StartDate,
+                EndDate = educationTransfer.EndDate
+            };
+
             var createdEducation = await _educationService.CreateEducationAsync(education);
             return CreatedAtAction(nameof(GetEducation), new { id = createdEducation.Id }, createdEducation);
         }

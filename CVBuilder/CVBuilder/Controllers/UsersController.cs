@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CVBuilder.Models;
 using CVBuilder.Services.Contracts;
+using CVBuilder.Data.DTO;
 
 namespace CVBuilder.Controllers
 {
@@ -47,8 +48,18 @@ namespace CVBuilder.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(Guid id, User user)
+        public async Task<IActionResult> PutUser(Guid id, UserDTO userTransfer)
         {
+            User user = new User
+            {
+                Id = userTransfer.Id,
+                Username = userTransfer.Username,
+                Email = userTransfer.Email,
+                Password = userTransfer.Password,
+                FirstName = userTransfer.FirstName,
+                LastName = userTransfer.LastName
+            };
+
             var isUpdated = await _userService.UpdateUserAsync(id, user);
             if (!isUpdated)
             {
@@ -60,8 +71,18 @@ namespace CVBuilder.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> PostUser(UserDTO userTransfer)
         {
+            User user = new User
+            {
+                Id = userTransfer.Id,
+                Username = userTransfer.Username,
+                Email = userTransfer.Email,
+                Password = userTransfer.Password,
+                FirstName = userTransfer.FirstName,
+                LastName = userTransfer.LastName
+            };
+
             var createdUser = await _userService.CreateUserAsync(user);
             return CreatedAtAction(nameof(GetUser), new { id = createdUser.Id }, createdUser);
         }
