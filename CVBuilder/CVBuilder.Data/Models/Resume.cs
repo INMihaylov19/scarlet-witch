@@ -1,29 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿//using System;
+//using System.Collections.Generic;
 
-namespace CVBuilder.Models;
+//namespace CVBuilder.Models;
 
-public partial class Resume
-{
-    public Guid Id { get; set; }
+//public partial class Resume
+//{
+//    public Guid Id { get; set; }
 
-    public string Title { get; set; } = null!;
+//    public string Title { get; set; } = null!;
 
-    public DateTime CreationDate { get; set; }
+//    public DateTime CreationDate { get; set; }
 
-    public DateTime LastModified { get; set; }
+//    public DateTime LastModified { get; set; }
 
-    public Guid UserId { get; set; }
+//    public Guid UserId { get; set; }
 
-    public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
+//    public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
 
-    public virtual ICollection<Education> Educations { get; set; } = new List<Education>();
+//    public virtual ICollection<Education> Educations { get; set; } = new List<Education>();
 
-    public virtual ICollection<Language> Languages { get; set; } = new List<Language>();
+//    public virtual ICollection<Language> Languages { get; set; } = new List<Language>();
 
-    public virtual User User { get; set; } = null!;
+//    public virtual User User { get; set; } = null!;
 
-    public virtual ICollection<WorkExperience> WorkExperiences { get; set; } = new List<WorkExperience>();
+//    public virtual ICollection<WorkExperience> WorkExperiences { get; set; } = new List<WorkExperience>();
 
-    public virtual ICollection<Skill> Skills { get; set; } = new List<Skill>();
-}
+//    public virtual ICollection<Skill> Skills { get; set; } = new List<Skill>();
+//}

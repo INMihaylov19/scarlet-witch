@@ -17,7 +17,7 @@ public partial class Education
 
     public DateTime EndDate { get; set; }
 
-    public Guid ResumeId { get; set; }
+    //public Guid ResumeId { get; set; }
 
-    public virtual Resume Resume { get; set; } = null!;
+    //public virtual Resume Resume { get; set; } = null!;
 }

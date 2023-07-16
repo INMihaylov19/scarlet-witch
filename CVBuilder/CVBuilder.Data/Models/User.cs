@@ -19,5 +19,5 @@ public partial class User
 
     public virtual ICollection<PersonalInfo> PersonalInfos { get; set; } = new List<PersonalInfo>();
 
-    public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
+    //public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
 }

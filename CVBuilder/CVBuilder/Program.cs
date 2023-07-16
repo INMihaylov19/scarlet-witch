@@ -21,7 +21,7 @@ namespace CVBuilder
             builder.Services.AddScoped<IEducationService, EducationService>();
             builder.Services.AddScoped<IPersonalInfoService, PersonalInfoService>();
             builder.Services.AddScoped<ICertificateService, CertificateService>();
-            builder.Services.AddScoped<IResumeService, ResumeService>();
+            //builder.Services.AddScoped<IResumeService, ResumeService>();
             builder.Services.AddScoped<IWorkExperienceService, WorkExperienceService>();
             builder.Services.AddScoped<IRegisterUser, RegisterUser>();
 

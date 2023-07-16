@@ -15,7 +15,7 @@ public partial class Certificate
 
     public DateTime? ExpirationDate { get; set; }
 
-    public Guid ResumeId { get; set; }
+    //public Guid ResumeId { get; set; }
 
-    public virtual Resume Resume { get; set; } = null!;
+    //public virtual Resume Resume { get; set; } = null!;
 }

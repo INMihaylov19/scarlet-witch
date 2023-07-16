@@ -11,7 +11,7 @@ public partial class Language
 
     public byte Proficiency { get; set; }
 
-    public Guid ResumeId { get; set; }
+    //public Guid ResumeId { get; set; }
 
-    public virtual Resume Resume { get; set; } = null!;
+    //public virtual Resume Resume { get; set; } = null!;
 }
