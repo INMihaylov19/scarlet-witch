@@ -14,31 +14,13 @@ Password varchar(500) NOT NULL,
 FirstName nvarchar(100) NOT NULL,
 LastName nvarchar(100) NOT NULL
 )
-CREATE TABLE Resumes(
-Id UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY NOT NULL,
-Title nvarchar(100) NOT NULL,
-CreationDate datetime2 NOT NULL,
-LastModified datetime2 NOT NULL,
-UserId UNIQUEIDENTIFIER DEFAULT NEWID() NOT NULL,
-FOREIGN KEY (UserId) REFERENCES Users(Id)
-)
-
-CREATE TABLE ResumesSkills(
-ResumeId UNIQUEIDENTIFIER DEFAULT NEWID() NOT NULL,
-SkillId UNIQUEIDENTIFIER DEFAULT NEWID() NOT NULL,
-PRIMARY KEY (ResumeId, SkillId),
-FOREIGN KEY (ResumeId) REFERENCES Resumes(Id),
-FOREIGN KEY (SkillId) REFERENCES Skills(Id)
-)
 
 CREATE TABLE [Certificates](
 Id UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY NOT NULL,
 Name nvarchar(150) NOT NULL,
 Organization nvarchar(100) NOT NULL,
 IssueDate date NOT NULL,
-ExpirationDate date,
-ResumeId UNIQUEIDENTIFIER DEFAULT NEWID() NOT NULL,
-FOREIGN KEY (ResumeId) REFERENCES Resumes(Id),
+ExpirationDate date
 )
 
 CREATE TABLE Educations(
@@ -48,8 +30,6 @@ Degree nvarchar(100) NOT NULL,
 FieldOfStudy nvarchar(100) NOT NULL,
 StartDate date NOT NULL,
 EndDate date NOT NULL,
-ResumeId UNIQUEIDENTIFIER DEFAULT NEWID() NOT NULL,
-FOREIGN KEY (ResumeId) REFERENCES Resumes(Id),
 )
 
 CREATE TABLE PersonalInfos(
@@ -67,8 +47,6 @@ Position nvarchar(100) NOT NULL,
 StartDate date NOT NULL,
 EndDate date NOT NULL,
 Description nvarchar(500) NOT NULL,
-ResumeId UNIQUEIDENTIFIER DEFAULT NEWID() NOT NULL,
-FOREIGN KEY (ResumeId) REFERENCES Resumes(Id),
 )
 
 CREATE TABLE Templates(
@@ -81,6 +59,4 @@ CREATE TABLE Languages(
     Id UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY NOT NULL,
     Name nvarchar(100) NOT NULL,
     Proficiency tinyint NOT NULL,
-    ResumeId UNIQUEIDENTIFIER DEFAULT NEWID() NOT NULL,
-    FOREIGN KEY (ResumeId) REFERENCES Resumes(Id),
 )
