@@ -51,7 +51,6 @@ namespace CVBuilder.Controllers
         {
             Certificate certificate = new Certificate
             {
-                Id = certificateTransfer.Id,
                 Name = certificateTransfer.Name,
                 IssueDate = certificateTransfer.IssueDate,
                 ExpirationDate = certificateTransfer.ExpirationDate,

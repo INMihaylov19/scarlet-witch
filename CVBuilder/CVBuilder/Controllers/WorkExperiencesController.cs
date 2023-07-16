@@ -47,14 +47,9 @@ namespace CVBuilder.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWorkExperience(Guid id, WorkExperienceDTO workExperienceTransfer)
         {
-            if (id != workExperienceTransfer.Id)
-            {
-                return BadRequest();
-            }
 
             WorkExperience workExperience = new WorkExperience()
             {
-                Id = workExperienceTransfer.Id,
                 Company = workExperienceTransfer.Company,
                 Position = workExperienceTransfer.Position,
                 StartDate = workExperienceTransfer.StartDate,

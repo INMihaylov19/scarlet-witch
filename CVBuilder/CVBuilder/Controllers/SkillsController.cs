@@ -53,7 +53,6 @@ namespace CVBuilder.Controllers
         {
             var skill = new Skill
             {
-                Id = skillTransfer.Id,
                 Name = skillTransfer.Name
             };
 

@@ -8,8 +8,6 @@ namespace CVBuilder.Data.DTO
 {
     public class LanguageDTO
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; } = null!;
 
         public byte Proficiency { get; set; }

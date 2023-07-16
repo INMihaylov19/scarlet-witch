@@ -23,7 +23,7 @@ namespace CVBuilder.Services.Implementations
 
             User user = new User
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Username = username,
                 Password = userService.EncryptWithSalt(password, new byte[128/8]),
                 Email = email,

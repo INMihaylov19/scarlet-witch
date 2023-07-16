@@ -8,8 +8,6 @@ namespace CVBuilder.Data.DTO
 {
     public class EducationDTO
     {
-        public Guid Id { get; set; }
-
         public string Institute { get; set; } = null!;
 
         public string Degree { get; set; } = null!;

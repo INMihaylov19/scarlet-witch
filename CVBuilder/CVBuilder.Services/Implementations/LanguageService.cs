@@ -57,7 +57,7 @@ namespace CVBuilder.Services.Implementations
 
         public async Task<Language> CreateLanguageAsync(Language language)
         {
-            language.Id = new Guid();
+            language.Id = Guid.NewGuid();
             _context.Languages.Add(language);
             await _context.SaveChangesAsync();
 

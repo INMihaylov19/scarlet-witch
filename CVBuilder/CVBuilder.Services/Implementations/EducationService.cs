@@ -57,7 +57,7 @@ namespace CVBuilder.Services.Implementations
 
         public async Task<Education> CreateEducationAsync(Education education)
         {
-            education.Id = new Guid();
+            education.Id = Guid.NewGuid();
             _context.Educations.Add(education);
             await _context.SaveChangesAsync();
 

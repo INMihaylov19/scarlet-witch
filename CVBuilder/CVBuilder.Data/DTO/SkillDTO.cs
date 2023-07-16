@@ -8,8 +8,6 @@ namespace CVBuilder.Data.DTO
 {
     public class SkillDTO
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; } = null!;
     }
 }

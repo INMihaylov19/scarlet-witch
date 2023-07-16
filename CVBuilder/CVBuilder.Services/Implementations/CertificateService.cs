@@ -57,7 +57,7 @@ namespace CVBuilder.Services
 
         public async Task<Certificate> CreateCertificateAsync(Certificate certificate)
         {
-            certificate.Id = new Guid();
+            certificate.Id = Guid.NewGuid();
             _context.Certificates.Add(certificate);
             await _context.SaveChangesAsync();
 

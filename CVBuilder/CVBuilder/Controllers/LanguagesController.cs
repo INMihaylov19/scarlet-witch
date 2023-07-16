@@ -50,7 +50,6 @@ namespace CVBuilder.Controllers
         {
             Language language = new Language
             {
-                Id = languageTransfer.Id,
                 Name = languageTransfer.Name,
                 Proficiency = languageTransfer.Proficiency
             };

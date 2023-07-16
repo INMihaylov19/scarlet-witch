@@ -8,8 +8,6 @@ namespace CVBuilder.Data.DTO
 {
     public class CertificateDTO
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; } = null!;
 
         public string Organization { get; set; } = null!;

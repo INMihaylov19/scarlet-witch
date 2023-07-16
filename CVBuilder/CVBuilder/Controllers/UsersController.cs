@@ -52,7 +52,6 @@ namespace CVBuilder.Controllers
         {
             User user = new User
             {
-                Id = userTransfer.Id,
                 Username = userTransfer.Username,
                 Email = userTransfer.Email,
                 Password = userTransfer.Password,
@@ -75,7 +74,6 @@ namespace CVBuilder.Controllers
         {
             User user = new User
             {
-                Id = userTransfer.Id,
                 Username = userTransfer.Username,
                 Email = userTransfer.Email,
                 Password = userTransfer.Password,

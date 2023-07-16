@@ -51,7 +51,6 @@ namespace CVBuilder.Controllers
         {
             PersonalInfo personalInfo = new PersonalInfo
             {
-                Id = personalInfoTrasfer.Id,
                 Address = personalInfoTrasfer.Address,
                 Phone = personalInfoTrasfer.Phone,
             };
