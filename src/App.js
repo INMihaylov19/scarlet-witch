@@ -1,0 +1,16 @@
+import React from "react"; 
+import "./App.css";
+import Header from "./components Header/Header";
+import Navbar from "./components/Navbar";
+
+function App() {
+   return (
+   <div className="App">
+     <Navbar></Navbar>
+      {/* Add your other components or content here */}
+    <Header />
+   </div>
+   );
+}
+
+export default App;

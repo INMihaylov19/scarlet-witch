@@ -1,0 +1,16 @@
+.App{
+   display: flex;
+   flex-direction: column;
+   gap: 40px;
+}
+
+.title {
+    font-size: 36px;
+    color: #333;
+    text-align: center;
+}
+
+body {
+    background-image: url(../src/myImage/istockphoto-1163482014-612x612.jpg);
+    background-size: cover;
+}
