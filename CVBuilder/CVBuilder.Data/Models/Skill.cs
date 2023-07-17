@@ -5,9 +5,9 @@ namespace CVBuilder.Models;
 
 public partial class Skill
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
+    //public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
 }

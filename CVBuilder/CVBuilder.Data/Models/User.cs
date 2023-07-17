@@ -5,7 +5,7 @@ namespace CVBuilder.Models;
 
 public partial class User
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Username { get; set; } = null!;
 
@@ -17,9 +17,7 @@ public partial class User
 
     public string LastName { get; set; } = null!;
 
-    public byte[]? Salt { get; set; }
-
     public virtual ICollection<PersonalInfo> PersonalInfos { get; set; } = new List<PersonalInfo>();
 
-    public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
+    //public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
 }

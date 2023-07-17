@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using CVBuilder.Models;
+using CVBuilder.Services.Contracts;
+using CVBuilder.Data.DTO;
 
 namespace CVBuilder.Controllers
 {
@@ -13,125 +14,87 @@ namespace CVBuilder.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly CvdatabaseContext _context;
+        private readonly IUserService _userService;
 
-        public UsersController(CvdatabaseContext context)
+        public UsersController(IUserService userService)
         {
-            _context = context;
+            _userService = userService;
         }
 
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
-            return await _context.Users.ToListAsync();
+            var users = await _userService.GetUsersAsync();
+            if (users == null)
+            {
+                return NotFound();
+            }
+            return users;
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(Guid id)
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
-            var user = await _context.Users.FindAsync(id);
-
+            var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
-
             return user;
         }
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(Guid id, UserDTO userTransfer)
         {
-            if (id != user.Id)
+            User user = new User
+            {
+                Username = userTransfer.Username,
+                Email = userTransfer.Email,
+                Password = userTransfer.Password,
+                FirstName = userTransfer.FirstName,
+                LastName = userTransfer.LastName
+            };
+
+            var isUpdated = await _userService.UpdateUserAsync(id, user);
+            if (!isUpdated)
             {
                 return BadRequest();
             }
-
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
             return NoContent();
         }
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> PostUser(UserDTO userTransfer)
         {
-          if (_context.Users == null)
-          {
-              return Problem("Entity set 'CvdatabaseContext.Users'  is null.");
-          }
-            _context.Users.Add(user);
-            try
+            User user = new User
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (UserExists(user.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                Username = userTransfer.Username,
+                Email = userTransfer.Email,
+                Password = userTransfer.Password,
+                FirstName = userTransfer.FirstName,
+                LastName = userTransfer.LastName
+            };
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            var createdUser = await _userService.CreateUserAsync(user);
+            return CreatedAtAction(nameof(GetUser), new { id = createdUser.Id }, createdUser);
         }
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
-            if (_context.Users == null)
+            var isDeleted = await _userService.DeleteUserAsync(id);
+            if (!isDeleted)
             {
                 return NotFound();
             }
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool UserExists(int id)
-        {
-            return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

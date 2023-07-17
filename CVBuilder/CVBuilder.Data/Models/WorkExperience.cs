@@ -5,7 +5,7 @@ namespace CVBuilder.Models;
 
 public partial class WorkExperience
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Company { get; set; } = null!;
 
@@ -17,7 +17,7 @@ public partial class WorkExperience
 
     public string Description { get; set; } = null!;
 
-    public int ResumeId { get; set; }
+    //public Guid ResumeId { get; set; }
 
-    public virtual Resume Resume { get; set; } = null!;
+    //public virtual Resume Resume { get; set; } = null!;
 }

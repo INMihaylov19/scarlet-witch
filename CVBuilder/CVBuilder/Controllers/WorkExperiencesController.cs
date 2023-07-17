@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using CVBuilder.Models;
+using CVBuilder.Services.Contracts;
+using CVBuilder.Data.DTO;
+using Microsoft.CodeAnalysis;
 
 namespace CVBuilder.Controllers
 {
@@ -13,68 +15,51 @@ namespace CVBuilder.Controllers
     [ApiController]
     public class WorkExperiencesController : ControllerBase
     {
-        private readonly CvdatabaseContext _context;
+        private readonly IWorkExperienceService _workExperienceService;
 
-        public WorkExperiencesController(CvdatabaseContext context)
+        public WorkExperiencesController(IWorkExperienceService workExperienceService)
         {
-            _context = context;
+            _workExperienceService = workExperienceService;
         }
 
         // GET: api/WorkExperiences
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WorkExperience>>> GetWorkExperiences()
         {
-          if (_context.WorkExperiences == null)
-          {
-              return NotFound();
-          }
-            return await _context.WorkExperiences.ToListAsync();
+            var workExperiences = await _workExperienceService.GetWorkExperiencesAsync();
+            return Ok(workExperiences);
         }
 
         // GET: api/WorkExperiences/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<WorkExperience>> GetWorkExperience(int id)
+        public async Task<ActionResult<WorkExperience>> GetWorkExperience(Guid id)
         {
-          if (_context.WorkExperiences == null)
-          {
-              return NotFound();
-          }
-            var workExperience = await _context.WorkExperiences.FindAsync(id);
-
+            var workExperience = await _workExperienceService.GetWorkExperienceByIdAsync(id);
             if (workExperience == null)
             {
                 return NotFound();
             }
-
-            return workExperience;
+            return Ok(workExperience);
         }
 
         // PUT: api/WorkExperiences/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkExperience(int id, WorkExperience workExperience)
+        public async Task<IActionResult> PutWorkExperience(Guid id, WorkExperienceDTO workExperienceTransfer)
         {
-            if (id != workExperience.Id)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(workExperience).State = EntityState.Modified;
-
-            try
+            WorkExperience workExperience = new WorkExperience()
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
+                Company = workExperienceTransfer.Company,
+                Position = workExperienceTransfer.Position,
+                StartDate = workExperienceTransfer.StartDate,
+                EndDate = workExperienceTransfer.EndDate,
+                Description = workExperienceTransfer.Description
+            };
+            var isUpdated = await _workExperienceService.UpdateWorkExperienceAsync(id, workExperience);
+            if (!isUpdated)
             {
-                if (!WorkExperienceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return NoContent();
@@ -83,55 +68,31 @@ namespace CVBuilder.Controllers
         // POST: api/WorkExperiences
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<WorkExperience>> PostWorkExperience(WorkExperience workExperience)
+        public async Task<ActionResult<WorkExperience>> PostWorkExperience(WorkExperienceDTO workExperienceTransfer)
         {
-          if (_context.WorkExperiences == null)
-          {
-              return Problem("Entity set 'CvdatabaseContext.WorkExperiences'  is null.");
-          }
-            _context.WorkExperiences.Add(workExperience);
-            try
+            WorkExperience workExperience = new WorkExperience()
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (WorkExperienceExists(workExperience.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                Company = workExperienceTransfer.Company,
+                Position = workExperienceTransfer.Position,
+                StartDate = workExperienceTransfer.StartDate,
+                EndDate = workExperienceTransfer.EndDate,
+                Description = workExperienceTransfer.Description
+            };
 
-            return CreatedAtAction("GetWorkExperience", new { id = workExperience.Id }, workExperience);
+            var createdWorkExperience = await _workExperienceService.CreateWorkExperienceAsync(workExperience);
+            return CreatedAtAction(nameof(GetWorkExperience), new { id = createdWorkExperience.Id }, createdWorkExperience);
         }
 
         // DELETE: api/WorkExperiences/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWorkExperience(int id)
+        public async Task<IActionResult> DeleteWorkExperience(Guid id)
         {
-            if (_context.WorkExperiences == null)
+            var isDeleted = await _workExperienceService.DeleteWorkExperienceAsync(id);
+            if (!isDeleted)
             {
                 return NotFound();
             }
-            var workExperience = await _context.WorkExperiences.FindAsync(id);
-            if (workExperience == null)
-            {
-                return NotFound();
-            }
-
-            _context.WorkExperiences.Remove(workExperience);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool WorkExperienceExists(int id)
-        {
-            return (_context.WorkExperiences?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

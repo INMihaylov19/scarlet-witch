@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CVBuilder.Models;
+using CVBuilder.Services.Implementations;
+using CVBuilder.Services.Contracts;
+using CVBuilder.Data.DTO;
 
 namespace CVBuilder.Controllers
 {
@@ -13,125 +16,76 @@ namespace CVBuilder.Controllers
     [ApiController]
     public class SkillsController : ControllerBase
     {
-        private readonly CvdatabaseContext _context;
+        private readonly ISkillService _skillService;
 
-        public SkillsController(CvdatabaseContext context)
+        public SkillsController(ISkillService skillService)
         {
-            _context = context;
+            _skillService = skillService;
         }
 
         // GET: api/Skills
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Skill>>> GetSkills()
         {
-          if (_context.Skills == null)
-          {
-              return NotFound();
-          }
-            return await _context.Skills.ToListAsync();
+            var skills = await _skillService.GetSkillsAsync();
+            if (skills == null)
+            {
+                return NotFound();
+            }
+            return skills;
         }
 
         // GET: api/Skills/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Skill>> GetSkill(int id)
+        public async Task<ActionResult<Skill>> GetSkill(Guid id)
         {
-          if (_context.Skills == null)
-          {
-              return NotFound();
-          }
-            var skill = await _context.Skills.FindAsync(id);
-
+            var skill = await _skillService.GetSkillByIdAsync(id);
             if (skill == null)
             {
                 return NotFound();
             }
-
             return skill;
         }
 
         // PUT: api/Skills/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSkill(int id, Skill skill)
+        public async Task<IActionResult> PutSkill(Guid id, SkillDTO skillTransfer)
         {
-            if (id != skill.Id)
+            var skill = new Skill
+            {
+                Name = skillTransfer.Name
+            };
+
+            bool isUpdated = await _skillService.UpdateSkillAsync(id, skill);
+            if (!isUpdated)
             {
                 return BadRequest();
             }
-
-            _context.Entry(skill).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SkillExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
             return NoContent();
         }
 
         // POST: api/Skills
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Skill>> PostSkill(Skill skill)
+        public async Task<ActionResult<Skill>> PostSkill(SkillDTO skillTransfer)
         {
-          if (_context.Skills == null)
-          {
-              return Problem("Entity set 'CvdatabaseContext.Skills'  is null.");
-          }
-            _context.Skills.Add(skill);
-            try
+            var skill = new Skill
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (SkillExists(skill.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetSkill", new { id = skill.Id }, skill);
+                Name = skillTransfer.Name
+            };
+            var createdSkill = await _skillService.CreateSkillAsync(skill);
+            return CreatedAtAction(nameof(GetSkill), new { id = createdSkill.Id }, createdSkill);
         }
 
         // DELETE: api/Skills/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSkill(int id)
+        public async Task<IActionResult> DeleteSkill(Guid id)
         {
-            if (_context.Skills == null)
+            bool isDeleted = await _skillService.DeleteSkillAsync(id);
+            if (!isDeleted)
             {
                 return NotFound();
             }
-            var skill = await _context.Skills.FindAsync(id);
-            if (skill == null)
-            {
-                return NotFound();
-            }
-
-            _context.Skills.Remove(skill);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool SkillExists(int id)
-        {
-            return (_context.Skills?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using CVBuilder.Models;
+using CVBuilder.Services.Contracts;
+using CVBuilder.Services.Implementations;
+using CVBuilder.Data.DTO;
 
 namespace CVBuilder.Controllers
 {
@@ -13,125 +13,80 @@ namespace CVBuilder.Controllers
     [ApiController]
     public class PersonalInfoesController : ControllerBase
     {
-        private readonly CvdatabaseContext _context;
+        private readonly IPersonalInfoService _personalInfoService;
 
-        public PersonalInfoesController(CvdatabaseContext context)
+        public PersonalInfoesController(IPersonalInfoService personalInfoService)
         {
-            _context = context;
+            _personalInfoService = personalInfoService;
         }
 
         // GET: api/PersonalInfoes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PersonalInfo>>> GetPersonalInfos()
         {
-          if (_context.PersonalInfos == null)
-          {
-              return NotFound();
-          }
-            return await _context.PersonalInfos.ToListAsync();
+            var personalInfos = await _personalInfoService.GetPersonalInfosAsync();
+            if (personalInfos == null)
+            {
+                return NotFound();
+            }
+            return personalInfos;
         }
 
         // GET: api/PersonalInfoes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PersonalInfo>> GetPersonalInfo(int id)
+        public async Task<ActionResult<PersonalInfo>> GetPersonalInfo(Guid id)
         {
-          if (_context.PersonalInfos == null)
-          {
-              return NotFound();
-          }
-            var personalInfo = await _context.PersonalInfos.FindAsync(id);
-
+            var personalInfo = await _personalInfoService.GetPersonalInfoByIdAsync(id);
             if (personalInfo == null)
             {
                 return NotFound();
             }
-
             return personalInfo;
         }
 
         // PUT: api/PersonalInfoes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPersonalInfo(int id, PersonalInfo personalInfo)
+        public async Task<IActionResult> PutPersonalInfo(Guid id, PersonalInfoDTO personalInfoTrasfer)
         {
-            if (id != personalInfo.Id)
+            PersonalInfo personalInfo = new PersonalInfo
+            {
+                Address = personalInfoTrasfer.Address,
+                Phone = personalInfoTrasfer.Phone,
+            };
+
+            bool isUpdated = await _personalInfoService.UpdatePersonalInfoAsync(id, personalInfo);
+            if (!isUpdated)
             {
                 return BadRequest();
             }
-
-            _context.Entry(personalInfo).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PersonalInfoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
             return NoContent();
         }
 
         // POST: api/PersonalInfoes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<PersonalInfo>> PostPersonalInfo(PersonalInfo personalInfo)
+        public async Task<ActionResult<PersonalInfo>> PostPersonalInfo(PersonalInfoDTO personalInfoTransfer)
         {
-          if (_context.PersonalInfos == null)
-          {
-              return Problem("Entity set 'CvdatabaseContext.PersonalInfos'  is null.");
-          }
-            _context.PersonalInfos.Add(personalInfo);
-            try
+            PersonalInfo personalInfo = new PersonalInfo
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (PersonalInfoExists(personalInfo.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetPersonalInfo", new { id = personalInfo.Id }, personalInfo);
+                Address = personalInfoTransfer.Address,
+                Phone = personalInfoTransfer.Phone,
+            };
+            var createdPersonalInfo = await _personalInfoService.CreatePersonalInfoAsync(personalInfo);
+            return CreatedAtAction(nameof(GetPersonalInfo), new { id = createdPersonalInfo.Id }, createdPersonalInfo);
         }
 
         // DELETE: api/PersonalInfoes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePersonalInfo(int id)
+        public async Task<IActionResult> DeletePersonalInfo(Guid id)
         {
-            if (_context.PersonalInfos == null)
+            bool isDeleted = await _personalInfoService.DeletePersonalInfoAsync(id);
+            if (!isDeleted)
             {
                 return NotFound();
             }
-            var personalInfo = await _context.PersonalInfos.FindAsync(id);
-            if (personalInfo == null)
-            {
-                return NotFound();
-            }
-
-            _context.PersonalInfos.Remove(personalInfo);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool PersonalInfoExists(int id)
-        {
-            return (_context.PersonalInfos?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

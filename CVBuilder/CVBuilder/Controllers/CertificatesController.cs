@@ -6,132 +6,91 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CVBuilder.Models;
+using CVBuilder.Services.Contracts;
+using CVBuilder.Services.Implementations;
+using CVBuilder.Data.DTO;
 
 namespace CVBuilder.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class CertificatesController : ControllerBase
     {
-        private readonly CvdatabaseContext _context;
+        private readonly ICertificateService _certificateService;
 
-        public CertificatesController(CvdatabaseContext context)
+        public CertificatesController(ICertificateService certificateService)
         {
-            _context = context;
+            _certificateService = certificateService;
         }
 
-        // GET: api/Certificates
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Certificate>>> GetCertificates()
         {
-          if (_context.Certificates == null)
-          {
-              return NotFound();
-          }
-            return await _context.Certificates.ToListAsync();
+            var certificates = await _certificateService.GetCertificatesAsync();
+            if (certificates == null)
+            {
+                return NotFound();
+            }
+            return certificates;
         }
 
-        // GET: api/Certificates/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Certificate>> GetCertificate(int id)
+        public async Task<ActionResult<Certificate>> GetCertificate(Guid id)
         {
-          if (_context.Certificates == null)
-          {
-              return NotFound();
-          }
-            var certificate = await _context.Certificates.FindAsync(id);
-
+            var certificate = await _certificateService.GetCertificateByIdAsync(id);
             if (certificate == null)
             {
                 return NotFound();
             }
-
             return certificate;
         }
 
-        // PUT: api/Certificates/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCertificate(int id, Certificate certificate)
+        public async Task<IActionResult> PutCertificate(Guid id, CertificateDTO certificateTransfer)
         {
-            if (id != certificate.Id)
+            Certificate certificate = new Certificate
+            {
+                Name = certificateTransfer.Name,
+                IssueDate = certificateTransfer.IssueDate,
+                ExpirationDate = certificateTransfer.ExpirationDate,
+                Organization = certificateTransfer.Organization,
+
+            };
+
+            bool isUpdated = await _certificateService.UpdateCertificateAsync(id, certificate);
+            if (!isUpdated)
             {
                 return BadRequest();
             }
-
-            _context.Entry(certificate).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CertificateExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
             return NoContent();
         }
 
-        // POST: api/Certificates
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Certificate>> PostCertificate(Certificate certificate)
+        public async Task<ActionResult<Certificate>> PostCertificate(CertificateDTO certificateTransfer)
         {
-          if (_context.Certificates == null)
-          {
-              return Problem("Entity set 'CvdatabaseContext.Certificates'  is null.");
-          }
-            _context.Certificates.Add(certificate);
-            try
+            Certificate certificate = new Certificate
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (CertificateExists(certificate.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                Name = certificateTransfer.Name,
+                IssueDate = certificateTransfer.IssueDate,
+                ExpirationDate = certificateTransfer.ExpirationDate,
+                Organization = certificateTransfer.Organization,
 
-            return CreatedAtAction("GetCertificate", new { id = certificate.Id }, certificate);
+            };
+
+            var createdCertificate = await _certificateService.CreateCertificateAsync(certificate);
+            return CreatedAtAction(nameof(GetCertificate), new { id = createdCertificate.Id }, createdCertificate);
         }
 
-        // DELETE: api/Certificates/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCertificate(int id)
+        public async Task<IActionResult> DeleteCertificate(Guid id)
         {
-            if (_context.Certificates == null)
+            bool isDeleted = await _certificateService.DeleteCertificateAsync(id);
+            if (!isDeleted)
             {
                 return NotFound();
             }
-            var certificate = await _context.Certificates.FindAsync(id);
-            if (certificate == null)
-            {
-                return NotFound();
-            }
-
-            _context.Certificates.Remove(certificate);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool CertificateExists(int id)
-        {
-            return (_context.Certificates?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
