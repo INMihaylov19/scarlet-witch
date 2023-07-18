@@ -50,6 +50,7 @@ namespace CVBuilder.Controllers
         {
             Education education = new Education
             {
+                Id = id,
                 Institute = educationTransfer.Institute,
                 Degree = educationTransfer.Degree,
                 FieldOfStudy = educationTransfer.FieldOfStudy,

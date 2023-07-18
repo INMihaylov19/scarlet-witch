@@ -50,6 +50,7 @@ namespace CVBuilder.Controllers
 
             WorkExperience workExperience = new WorkExperience()
             {
+                Id = id,
                 Company = workExperienceTransfer.Company,
                 Position = workExperienceTransfer.Position,
                 StartDate = workExperienceTransfer.StartDate,

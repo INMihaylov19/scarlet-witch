@@ -46,6 +46,7 @@ namespace CVBuilder.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTemplate(Guid id, Template template)
         {
+            template.Id = id;
             bool isUpdated = await _templateService.UpdateTemplateAsync(id, template);
             if (!isUpdated)
             {
