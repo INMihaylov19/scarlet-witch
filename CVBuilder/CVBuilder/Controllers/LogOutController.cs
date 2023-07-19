@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace CVBuilder.Controllers
 {
@@ -10,7 +11,7 @@ namespace CVBuilder.Controllers
     public class LogoutController : ControllerBase
     {
         [HttpPost]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             // Perform user logout
