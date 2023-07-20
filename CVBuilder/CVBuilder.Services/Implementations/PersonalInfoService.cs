@@ -57,6 +57,8 @@ namespace CVBuilder.Services.Implementations
 
         public async Task<PersonalInfo> CreatePersonalInfoAsync(PersonalInfo personalInfo)
         {
+            personalInfo.Id = Guid.NewGuid();
+            personalInfo.UserId = new Guid("65328C61-A9CC-41CA-A272-0D649E684807");
             _context.PersonalInfos.Add(personalInfo);
             await _context.SaveChangesAsync();
 

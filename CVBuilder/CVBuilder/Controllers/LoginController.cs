@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using CVBuilder.Data.DTO;
 
 namespace CVBuilder.Controllers
 {
@@ -21,17 +22,17 @@ namespace CVBuilder.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Login(string username, string password)
+        public async Task<ActionResult> Login(LoginDTO loginUser)
         {
-            string hashedPassword = _userService.EncryptWithSalt(password, new byte[128 / 8]);
-            bool userExists = _userService.GetUserByUsernameAndPasswordAsync(username, hashedPassword);
+            string hashedPassword = _userService.EncryptWithSalt(loginUser.Password, new byte[128 / 8]);
+            bool userExists = _userService.GetUserByUsernameAndPasswordAsync(loginUser.Username, hashedPassword);
 
             if (!userExists)
             {
                 return Unauthorized();
             }
 
-            string token = CreatedToken(username, password);
+            string token = CreatedToken(loginUser.Username, loginUser.Password);
 
             return Ok($"Login successful, {token}");
         }
