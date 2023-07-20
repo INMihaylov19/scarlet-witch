@@ -11,13 +11,12 @@ namespace CVBuilder.Controllers
     public class LogoutController : ControllerBase
     {
         [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Logout()
+        [Route("logout")]
+        public ActionResult Logout()
         {
-            // Perform user logout
-            await HttpContext.SignOutAsync();
+            HttpContext.Response.Cookies.Delete("Authorization");
 
-            return Ok("Logged out successfully.");
+            return Ok("Logged out successfully");
         }
     }
 }
