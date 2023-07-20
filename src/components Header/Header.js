@@ -1,7 +1,6 @@
 import React from 'react';
-
-import myImage from '../myImage/Resume.png';
 import styles from './Header.module.css'
+import myImage from '../myImage/unnamed.png';
 
 function Header() {
     return (

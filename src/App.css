@@ -1,16 +1,56 @@
 .App{
-   display: flex;
-   flex-direction: column;
-   gap: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.navbar {
+  background-color: #333;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
 }
 
-.title {
-    font-size: 36px;
-    color: #333;
-    text-align: center;
+.nav-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-body {
-    background-image: url(../src/myImage/istockphoto-1163482014-612x612.jpg);
-    background-size: cover;
+.nav-logo {
+  text-decoration: none;
+  color: white;
+  font-size: 24px;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-left: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+}
+
+.signup {
+  margin: 50px auto;
+  max-width: 600px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.signup h2 {
+  margin-bottom: 20px;
 }
