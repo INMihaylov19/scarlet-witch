@@ -1,0 +1,227 @@
+
+/* base styles */
+.create *, *:before, *:after {
+  font-family: "Manrope";
+}
+
+.create html,
+body{
+    height: 100%;
+    padding: 0px;
+    margin: 0;
+}
+
+/* create new blog form */
+.create {
+  width: 100%;
+  display: flex;
+  height: 100vh;
+}
+.input-wrapper{
+  width:50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.create form{
+  width:500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 600px;
+}
+.create h2 {
+  font-size: 40px;
+  color: #35c8f1;
+  margin-bottom: 30px;
+}
+.form--headers{
+  font-size: 28px;
+  color: #4a4144;
+  margin-bottom: 30px;
+  margin-left: 20px;
+  font-weight: 600;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+.create label {
+  text-align: left;
+  display: block;
+  font-size: 23px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+.create input, .create select {
+  width: 90%;
+  height: 50px;
+  border: 1px solid #545e68;
+  outline: none;
+  box-sizing: border-box;
+  display: block;
+  font-size: 18px;
+  margin-left: 20px;
+}
+.create input:focus{
+  border-color:#f1356d;
+}
+.create textarea{
+  width:400px;
+  height:100px;
+  resize: none;
+  font-size: 18px;
+  padding-left: 0.5rem;
+  padding-top: 0.5rem;
+  margin-left: 20px;
+}
+.buttonWrapepr{
+  width: 460px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+}
+.create button {
+  background: #35d2f1;
+  color: #fff;
+  border: 0;
+  width: 210px;
+  height: 46px;
+  border-radius: 8px;
+  cursor: pointer;
+  align-self: center;
+  margin-top: 20px;
+  font-size: 19px;
+}
+
+.cv-wrapper{
+  width:50%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.cv{
+  margin-top: 15px;
+  width:740px;
+  height: auto;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  box-shadow: 10px 10px 40px -4px rgba(102,101,101,0.75);
+-webkit-box-shadow: 10px 10px 40px -4px rgba(102,101,101,0.75);
+-moz-box-shadow: 10px 10px 40px -4px rgba(102,101,101,0.75);
+}
+.personalInfo-wrapper{
+  width:100%;
+  height:100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.personalInfo-wrapper--name{
+  font-size: 26px;
+  padding-left: 30px;
+  margin-top: 15px;
+}
+.addressAndEmail--wrapper{
+  width: 420px;
+  height:100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.addressText{
+  font-size: 15px;
+  width: 200px;
+  text-align: right;
+}
+.emailAndPhone{
+  width:200px;
+  height:100%;
+  display: flex;
+  flex-direction: column;
+}
+.emailAndPhone p:nth-child(2){
+  margin-top: -5px;
+}
+.emailAndPhoneText{
+  font-size: 15px;
+  line-height: 1rem;
+}
+.hr{
+  justify-self: center;
+  align-self: center;
+  width:92%;
+  height:3px;
+  background-color: grey;
+}
+.headlineWrapper{
+  width: 90%;
+  text-align: center;
+  height: auto;
+}
+.headline{
+  font-size: 30px;
+  width:100%;
+  align-self: center;
+
+}
+.side-others{
+  width: 100%;
+  height:100%;
+  display: flex;
+  flex-direction: column;
+}
+.main-wrapper{
+  width:100%;
+  height:auto;
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+}
+.side-wrapper{
+  width:180px;
+  height:150px;
+  margin-left: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.side{
+  width:90%;
+  height: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.innerMainMain{
+  width:500px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.section-header{
+  font-size: 23px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+.section-text{
+  font-size: 18px;
+  margin-bottom: 0px;
+}
+.sideText{
+  margin-top: 25px;
+  font-size: 18px;
+  height: 1.3em;
+  width: auto;
+  text-align: center;
+  background-color: rgba(202, 191, 191, 0.65);
+}

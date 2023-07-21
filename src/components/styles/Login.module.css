@@ -1,0 +1,87 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+  background-color: 
+  #eff2f9;
+}
+
+  .button_common {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: "Manrope";
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+ 
+  .login {
+    width: 300px;
+    margin: 10px;
+    font-family: "Manrope";
+    padding: 50px;
+    border-radius: 10px; 
+    background-color: #ffffff8f; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    margin-left: 40vw;
+    margin-top: 30vh;
+  }
+  
+  .login h1 {
+    text-align: center;
+    font-family: "Manrope";
+    margin-bottom: 20px;
+  }
+  
+  .login input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-left: -10px;
+    font-size: 20px;
+    font-family: "Manrope";
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .login button {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a91f0;
+    color: #ecedf3;
+    font-size: 20px;
+    border: none;
+    font-family: "Manrope";
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 0.5s
+  }
+  
+  .login button:hover {
+    background-color: #0761c0;
+    font-family: "Manrope";
+    transition-duration: 0.5s;
+  }
+
+  
+  .login a {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-family: "Manrope";
+    text-decoration: none;
+    color: #007bff;
+    transition-duration: 0.5s;
+  }
+  
+  .login a:hover {
+    color: #0056b3;
+    font-family: "Manrope";
+    transition-duration: 0.5s;
+  }

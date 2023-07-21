@@ -1,0 +1,15 @@
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\obj\Debug\net6.0\CVBuilder.Services.csproj.AssemblyReference.cache
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\obj\Debug\net6.0\CVBuilder.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\obj\Debug\net6.0\CVBuilder.Services.AssemblyInfoInputs.cache
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\obj\Debug\net6.0\CVBuilder.Services.AssemblyInfo.cs
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\obj\Debug\net6.0\CVBuilder.Services.csproj.CoreCompileInputs.cache
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\bin\Debug\net6.0\CVBuilder.Services.deps.json
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\bin\Debug\net6.0\CVBuilder.Services.dll
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\bin\Debug\net6.0\CVBuilder.Services.pdb
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\bin\Debug\net6.0\CVBuilder.Data.dll
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\bin\Debug\net6.0\CVBuilder.Data.pdb
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\obj\Debug\net6.0\CVBuilder.Services.csproj.CopyComplete
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\obj\Debug\net6.0\CVBuilder.Services.dll
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\obj\Debug\net6.0\refint\CVBuilder.Services.dll
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\obj\Debug\net6.0\CVBuilder.Services.pdb
+C:\Users\ivann\source\repos\scarlet-witch\CVBuilder\CVBuilder.Services\obj\Debug\net6.0\ref\CVBuilder.Services.dll
